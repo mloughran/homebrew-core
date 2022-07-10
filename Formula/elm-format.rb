@@ -2,8 +2,9 @@ class ElmFormat < Formula
   desc "Elm source code formatter, inspired by gofmt"
   homepage "https://github.com/avh4/elm-format"
   url "https://github.com/avh4/elm-format.git",
-      tag:      "0.8.5",
-      revision: "80f15d85ee71e1663c9b53903f2b5b2aa444a3be"
+      branch:   "ghc-8.10.7",
+      revision: "262d792dc2058a86a01c8e6d8011919752d17b8e"
+  version "0.8.5"
   license "BSD-3-Clause"
   head "https://github.com/avh4/elm-format.git", branch: "main"
 
@@ -32,11 +33,7 @@ class ElmFormat < Formula
     ENV.deparallelize { system "stack", "-j#{jobs}", "setup", "8.10.7", "--stack-root", buildpath/".stack" }
     ENV.prepend_path "PATH", Dir[buildpath/".stack/programs/*/ghc-*/bin"].first
 
-    system "sed", "-i", ".bak", "s/8.10.4/8.10.7/", "cabal.project"
-
     system "cabal", "v2-update"
-
-    system "rm", "cabal.project.freeze"
 
     # Directly running `cabal v2-install` fails: Invalid file name in tar archive: "avh4-lib-0.0.0.1/../"
     # Instead, we can use the upstream's build.sh script, which utilizes the Shake build system.
