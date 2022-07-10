@@ -35,9 +35,8 @@ class ElmFormat < Formula
 
     system "cabal", "v2-update"
 
-    # Directly running `cabal v2-install` fails: Invalid file name in tar archive: "avh4-lib-0.0.0.1/../"
-    # Instead, we can use the upstream's build.sh script, which utilizes the Shake build system.
-    system "./build.sh", "--", "build"
+    system "cabal", "build"
+
     bin.install "_build/elm-format"
   end
 
