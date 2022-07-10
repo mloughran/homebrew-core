@@ -17,7 +17,6 @@ class ElmFormat < Formula
 
   depends_on "cabal-install" => :build
   depends_on "haskell-stack" => :build
-  depends_on arch: :x86_64 # no ghc (OSX,AArch64) binary via `haskell-stack`
 
   uses_from_macos "xz" => :build # for `haskell-stack` to unpack ghc
 
@@ -30,8 +29,11 @@ class ElmFormat < Formula
     # in Homebrew. Try using Homebrew `ghc` on update. Optionally, consider adding `ghcup`
     # as a lighter-weight alternative to `haskell-stack` for installing particular ghc version.
     jobs = ENV.make_jobs
-    ENV.deparallelize { system "stack", "-j#{jobs}", "setup", "8.10.4", "--stack-root", buildpath/".stack" }
+    ENV.deparallelize { system "stack", "-j#{jobs}", "setup", "8.10.7", "--stack-root", buildpath/".stack" }
     ENV.prepend_path "PATH", Dir[buildpath/".stack/programs/*/ghc-*/bin"].first
+
+    system "sed", "-i", ".bak", "s/8.10.4/8.10.7/", "cabal.project"
+
     system "cabal", "v2-update"
 
     # Directly running `cabal v2-install` fails: Invalid file name in tar archive: "avh4-lib-0.0.0.1/../"
