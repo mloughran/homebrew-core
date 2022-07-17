@@ -10,8 +10,7 @@ class Treefmt < Formula
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", "--path", ".", "--root", buildpath
-    bin.install buildpath / "bin" / "treefmt"
+    system "cargo", "install", *std_cargo_args
   end
 
   test do
