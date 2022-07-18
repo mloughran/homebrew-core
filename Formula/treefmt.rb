@@ -14,6 +14,7 @@ class Treefmt < Formula
   end
 
   test do
-    system bin / "treefmt", "-V"
+    # Test that treefmt responds as expected when run without treefmt.toml config
+    assert_match "treefmt.toml could not be found", shell_output("#{bin}/treefmt 2>&1", 1)
   end
 end
